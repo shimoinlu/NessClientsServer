@@ -20,12 +20,12 @@ namespace NessClientsServer.Controllers
         }
 
         // GET: Clients
-        public async Task<IActionResult> Index()
-        {
-              return _context.Client != null ? 
-                          View(await _context.Client.ToListAsync()) :
-                          Problem("Entity set 'NessClientsServerContext.Client'  is null.");
-        }
+        // public async Task<IActionResult> Index()
+        // {
+        //       return _context.Client != null ? 
+        //                   View(await _context.Client.ToListAsync()) :
+        //                   Problem("Entity set 'NessClientsServerContext.Client'  is null.");
+        // }
 
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -154,7 +154,18 @@ namespace NessClientsServer.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        public string Editt()
+        {
+            return "edit";
+        }
+        public string Index()
+        {
+            return "Index";
+        }
+        public string Search()
+        {
+            return "Search";
+        }
         private bool ClientExists(int id)
         {
           return (_context.Client?.Any(e => e.Id == id)).GetValueOrDefault();
