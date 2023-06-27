@@ -1,4 +1,9 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using NessClientsServer.Data;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<NessClientsServerContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("NessClientsServerContext") ?? throw new InvalidOperationException("Connection string 'NessClientsServerContext' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
