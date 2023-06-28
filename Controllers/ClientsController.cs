@@ -26,7 +26,14 @@ namespace NessClientsServer.Controllers
                           View(await _context.Client.ToListAsync()) :
                           Problem("Entity set 'NessClientsServerContext.Client'  is null.");
         }
-
+        //GET: Clients/EditScreen
+        public async Task<IActionResult> EditScreen()
+        {
+            ViewData["allowEdit"] = "true";
+            return _context.Client != null ? 
+                          View("Index",await _context.Client.ToListAsync()) :
+                          Problem("Entity set 'NessClientsServerContext.Client'  is null.");
+        }
         // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
