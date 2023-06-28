@@ -1,37 +1,39 @@
 @model IEnumerable<NessClientsServer.Models.Client>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Clients";
 }
 
-<h1>Index</h1>
-
+<h1>All Clients</h1>
+@if(ViewData["allowEdit"] != null)
+{
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                First Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SureName)
+                Sure Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PersonalId)
+                Id
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.IpAddress)
+                Ip Address
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhonoNumber)
+                Phone Number
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                Country
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                City
             </th>
             <th></th>
         </tr>
@@ -60,11 +62,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.City)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+                @if(ViewData["allowEdit"] != null)
+                {
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                }
         </tr>
 }
     </tbody>
