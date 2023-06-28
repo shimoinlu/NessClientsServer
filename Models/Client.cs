@@ -31,10 +31,6 @@ public class Client
     [Required(ErrorMessage ="you must init your phone number")]
     [RegularExpression(@"^\s*\+?\s*([0-9][\s-]*){9,}$",ErrorMessage ="you must init a valid phone number")]
     public required string PhonoNumber { get; set; }
-    [Required]
-    [RegularExpression(@"[a-zA-Z \-]+")]
-    public required string Country { get; set; }
-    [Required]
-    [RegularExpression(@"[a-zA-Z \-]+")]
-    public required string City { get; set; }
+    public  string? Country { get; set; }
+    public  string? City { get; set; }
 }
