@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Http;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -65,6 +68,18 @@ namespace NessClientsServer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SureName,PersonalId,IpAddress,PhonoNumber")] Client client)
         {
+            string urlToIpInformation = "http://ip-api.com/json/" + client.IpAddress;
+            HttpClient c = new HttpClient();
+            HttpResponseMessage response = await c.GetAsync(urlToIpInformation);
+            response.EnsureSuccessStatusCode();
+            string responseBody = await response.Content.ReadAsStringAsync();
+            JsonNode ipNode = JsonNode.Parse(responseBody)!;
+            string city = (string)ipNode!["city"]!;
+            string country = (string)ipNode!["country"]!;
+
+            client.City = city;
+            client.City = country;
+
             if (ModelState.IsValid)
             {
                 _context.Add(client);
@@ -72,7 +87,7 @@ namespace NessClientsServer.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(client);
-        }
+       }
 
         // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
