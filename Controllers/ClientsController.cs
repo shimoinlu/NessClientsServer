@@ -78,7 +78,7 @@ namespace NessClientsServer.Controllers
             string country = (string)ipNode!["country"]!;
 
             client.City = city;
-            client.City = country;
+            client.Country = country;
 
             if (ModelState.IsValid)
             {
