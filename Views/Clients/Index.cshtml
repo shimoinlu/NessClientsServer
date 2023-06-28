@@ -4,12 +4,30 @@
     ViewData["Title"] = "Clients";
 }
 
-<h1>All Clients</h1>
 @if(ViewData["allowEdit"] != null)
 {
+<h1>Edit Clients</h1>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+}
+@if(ViewData["SearchScreen"] == null && ViewData["allowEdit"] == null)
+{
+<h1>All Clients</h1>
+
+}
+@if(ViewData["SearchScreen"] != null)
+{
+<h1>Search Clients</h1>
+
+<form asp-controller="Clients" asp-action="Search">
+    <p>
+        First Name: <input type="text" name="FirstName" />
+        Sure Name: <input type="text" name="SureName" />
+        Id: <input type="text" name="PersonalId" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
 }
 <table class="table">
     <thead>

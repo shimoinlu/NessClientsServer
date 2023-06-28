@@ -176,13 +176,32 @@ namespace NessClientsServer.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        public string Editt()
+        public async Task<IActionResult> Search(string? FirstName,string? SureName, string? PersonalId)
         {
-            return "edit";
-        }
-        public string Search()
-        {
-            return "Search";
+            if (_context.Client== null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+            } 
+            var clnts = from c in _context.Client
+                select c;
+
+            if (!String.IsNullOrEmpty(FirstName))
+            {
+                clnts = clnts.Where(s => s.FirstName!.Contains(FirstName));
+            }
+            if (!String.IsNullOrEmpty(SureName))
+            {
+                clnts = clnts.Where(s => s.FirstName!.Contains(SureName));
+            }
+            if (!String.IsNullOrEmpty(PersonalId))
+            {
+                clnts = clnts.Where(s => s.FirstName!.Contains(PersonalId));
+            }
+            ViewData["SearchScreen"] = "yes";
+            if(String.IsNullOrEmpty(PersonalId) && String.IsNullOrEmpty(FirstName) && String.IsNullOrEmpty(SureName) )
+                return View("index",await _context.Client.ToListAsync());
+            else
+                return View("index",await clnts.ToListAsync());
         }
         private bool ClientExists(int id)
         {
