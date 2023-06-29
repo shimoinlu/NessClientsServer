@@ -68,7 +68,7 @@ namespace NessClientsServer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SureName,PersonalId,IpAddress,PhonoNumber")] Client client)
         {
-            
+
             string urlToIpInformation = "http://ip-api.com/json/" + client.IpAddress;
             HttpClient c = new HttpClient();
             HttpResponseMessage response = await c.GetAsync(urlToIpInformation);
@@ -186,18 +186,37 @@ namespace NessClientsServer.Controllers
             var clnts = from c in _context.Client
                 select c;
 
-            if (!String.IsNullOrEmpty(FirstName))
+            if(!String.IsNullOrEmpty(PersonalId) && !String.IsNullOrEmpty(FirstName) &&  !String.IsNullOrEmpty(SureName) )
+            {
+                clnts = clnts.Where(s => s.PersonalId!.Contains(PersonalId) && s.FirstName!.Contains(FirstName) && s.SureName!.Contains(SureName));
+            }
+            if(String.IsNullOrEmpty(PersonalId) && !String.IsNullOrEmpty(FirstName) && !String.IsNullOrEmpty(SureName) )
+            {
+                clnts = clnts.Where(s =>  s.FirstName!.Contains(FirstName) && s.SureName!.Contains(SureName));
+            }
+            if(!String.IsNullOrEmpty(PersonalId) &&  String.IsNullOrEmpty(FirstName) && !String.IsNullOrEmpty(SureName) )
+            {
+                clnts = clnts.Where(s => s.PersonalId!.Contains(PersonalId)  && s.SureName!.Contains(SureName));
+            }
+            if(!String.IsNullOrEmpty(PersonalId) &&  !String.IsNullOrEmpty(FirstName) && String.IsNullOrEmpty(SureName) )
+            {
+                clnts = clnts.Where(s => s.PersonalId!.Contains(PersonalId) && s.FirstName!.Contains(FirstName) );
+            }
+            if(String.IsNullOrEmpty(PersonalId) && String.IsNullOrEmpty(FirstName) && !String.IsNullOrEmpty(SureName) )
+            {
+                clnts = clnts.Where(s => s.SureName!.Contains(SureName));
+            }
+            if(String.IsNullOrEmpty(PersonalId) && !String.IsNullOrEmpty(FirstName) && String.IsNullOrEmpty(SureName) )
             {
                 clnts = clnts.Where(s => s.FirstName!.Contains(FirstName));
             }
-            if (!String.IsNullOrEmpty(SureName))
+            if(!String.IsNullOrEmpty(PersonalId) &&  String.IsNullOrEmpty(FirstName) && String.IsNullOrEmpty(SureName) )
             {
-                clnts = clnts.Where(s => s.FirstName!.Contains(SureName));
+                clnts = clnts.Where(s => s.PersonalId!.Contains(PersonalId) );
             }
-            if (!String.IsNullOrEmpty(PersonalId))
-            {
-                clnts = clnts.Where(s => s.FirstName!.Contains(PersonalId));
-            }
+
+
+
             ViewData["SearchScreen"] = "yes";
             if(String.IsNullOrEmpty(PersonalId) && String.IsNullOrEmpty(FirstName) && String.IsNullOrEmpty(SureName) )
                 return View("index",await _context.Client.ToListAsync());
