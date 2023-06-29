@@ -68,6 +68,7 @@ namespace NessClientsServer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,SureName,PersonalId,IpAddress,PhonoNumber")] Client client)
         {
+            
             string urlToIpInformation = "http://ip-api.com/json/" + client.IpAddress;
             HttpClient c = new HttpClient();
             HttpResponseMessage response = await c.GetAsync(urlToIpInformation);

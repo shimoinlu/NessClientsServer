@@ -16,8 +16,8 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         let f = document.getElementById("formNewClientDetails");
-        f.addEventListener('submit',(e)=>{
-            e.preventDefault();
+        let buttonSubmit = document.getElementById("buttonSubmit");
+        buttonSubmit.addEventListener('click',(e)=>{
             trimInputs(f);
             let id = document.getElementById('id')
             if(!is_israeli_id_number(id.value))
@@ -26,7 +26,7 @@
                 id.reportValidity();
             }
             else
-                f.onsubmit();
+                f.submit();
             })
         })
 
