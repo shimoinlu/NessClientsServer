@@ -33,11 +33,12 @@
         buttonSubmit.addEventListener('click',(e)=>{
             trimInputs(f);
             let id = document.getElementById('id')
-            if(!is_israeli_id_number(id.value) && ValidateAllInputs())
+            if(!is_israeli_id_number(id.value) )
             {
                 id.setCustomValidity("Bad check digit");
                 id.reportValidity();
             }
+            else if(!ValidateAllInputs()){}
             else
                 f.submit();
             })
@@ -54,4 +55,3 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-console.log("shimon won")
